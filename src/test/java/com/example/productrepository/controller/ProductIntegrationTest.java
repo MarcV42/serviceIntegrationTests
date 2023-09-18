@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -50,6 +51,35 @@ public class ProductIntegrationTest {
 
 
         //THen
+    }
+
+    @Test
+    @DirtiesContext
+    void addProductTest() throws Exception {
+        //Given
+
+        //WHEN
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/products")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "title": "test-title",
+                                "price": 23
+                                }
+                                """)
+                )
+
+                //THEN
+                .andExpect(status().isOk())
+                .andExpect(content().json("""
+
+                        {
+                         "title": "test-title",
+                                "price": 23
+                        }
+                        """));
+
+
     }
 }
 
