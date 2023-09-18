@@ -5,15 +5,16 @@ import com.example.productrepository.products.models.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final IdService idService;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, IdService idService) {
         this.productRepository = productRepository;
+        this.idService = idService;
     }
 
     public List<Product> findAllProducts() {
@@ -23,11 +24,25 @@ public class ProductService {
     public Product addProduct(NewProduct newProduct) {
 
         Product product = new Product(
-                UUID.randomUUID().toString(),
+                idService.randomId(),
                 newProduct.title(),
                 newProduct.price()
-                );
+        );
 
         return productRepository.save(product);
+    }
+
+    public Product findById(String id) {
+        return productRepository.findById(id)
+                .orElseThrow();
+    }
+
+    public Product updateProduct(String id, NewProduct productToUpdate) {
+        Product productToSave = new Product(id, productToUpdate.title(), productToUpdate.price());
+        return productRepository.save(productToSave);
+    }
+
+    public void deleteProduct(String id) {
+        productRepository.deleteById(id);
     }
 }
