@@ -59,6 +59,7 @@ public class ProductIntegrationTest {
         //Given
 
         //WHEN
+        // Hier jetzt keine [] Klammern da es KEINE liste ist nur ein Produkt!
         mockMvc.perform(MockMvcRequestBuilders.post("/api/products")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
