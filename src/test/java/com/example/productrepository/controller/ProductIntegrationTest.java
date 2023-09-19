@@ -34,6 +34,7 @@ public class ProductIntegrationTest {
 
 
         // hier kann man statt get auch post eingeben um eine postmethode zu testen
+        // [] wenn man eine Liste wie hier abfragen will!
         //When
         mockMvc.perform(MockMvcRequestBuilders.get("/api/products"))
                 .andExpect(status().isOk())
